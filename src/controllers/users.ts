@@ -1,43 +1,33 @@
-// function that handles a request from a user
+import { RequestHandler } from "express";
 
-import express, { NextFunction, Request, Response } from "express";
-import prisma from "../prisma.js";
-
-const getMany = async (req: Request, res: Response) => {
-  const users = await prisma.user.findMany();
-  res.json({ users });
+export const getUsers: RequestHandler = async (req, res) => {
+  res.json({ message: "getUsers" });
 };
 
-const create = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const user = await prisma.user.create({
-      data: {
-        email: req.body.email,
-        username: req.body.username,
-        name: req.body.name,
-      },
-    });
-    res.status(201).json({ user });
-  } catch (err) {
-    next(err); // checks if custom error middleware
-  }
-};
-const get = async (req: Request, res: Response) => {
-  const id = Number.parseInt(req.params.id);
-  const user = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-    include: {
-      posts: true,
-    },
-  });
-
-  if (!user) {
-    res.status(404).json({ error: "user not found" });
-    return;
-  }
-  res.json({ user });
+export const createUser: RequestHandler = async (req, res) => {
+  res.json({ message: "createUser" });
 };
 
-export default { getMany, get, create };
+export const getUser: RequestHandler = async (req, res) => {
+  res.json({ message: "getUser" });
+};
+
+export const updateUser: RequestHandler = async (req, res) => {
+  res.json({ message: "updateUser" });
+};
+
+export const deleteUser: RequestHandler = async (req, res) => {
+  res.json({ message: "deleteUser" });
+};
+
+export const getUserPosts: RequestHandler = async (req, res) => {
+  res.json({ message: "getUserPosts" });
+};
+
+export const getUserLikedPosts: RequestHandler = async (req, res) => {
+  res.json({ message: "getUserLikedPosts" });
+};
+
+export const getUserFollowedPosts: RequestHandler = async (req, res) => {
+  res.json({ message: "getUserFollowedPosts" });
+};
